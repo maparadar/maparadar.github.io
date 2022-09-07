@@ -1,13 +1,70 @@
-<!doctype html>
-<html lang="pl">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Mapa Radar - mapa ruchu lotniczego</title>
+    <title>EPGD Flight Info - only for personal purpose</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width"/>
+    <link href="css/flight.css" rel="stylesheet" media="screen"/>
 </head>
 <body>
-<h1>Mapa Radar - mapa ruchu lotniczego i wojskowego</h1>
+<!-- <iframe src="http://www.flightradar24.com/simple_index.php?lat=54.377458&lon=18.467760&z=8" id ="flight-radar"></iframe> -->
+<iframe src="https://globe.adsbexchange.com/" id="flight-radar" loading="lazy"></iframe>
+<audio src="https://d.liveatc.net/epgd" controls autoplay id="liveATCAudio"></audio>
+<ul id="cameras">
+    <li><img src="https://kamery.airport.gdansk.pl/kamery/pps3.jpg?t=0" alt="" loading="lazy"/></li>
+    <li><img src="https://kamery.airport.gdansk.pl/kamery/pps1.jpg?t=0" alt="" loading="lazy"/></li>
+    <li><img src="https://kamery.airport.gdansk.pl/kamery/ppsy.jpg?t=0" alt="" loading="lazy"/></li>
+    <li><img src="https://kamery.airport.gdansk.pl/kamery/przyloty_t2.jpg?t=0" alt="" loading="lazy"/></li>
+    <li><img src="https://kamery.airport.gdansk.pl/kamery/pirs2.jpg?t=0" alt="" loading="lazy"/></li>
+    <li><img src="https://kamery.airport.gdansk.pl/kamery/app29.jpg?t=0" alt="" loading="lazy"/></li>
+</ul>
+<script type='text/javascript'>
 
+    let $audio;
+    let $photos;
+
+    const audioPlay = () => $audio.play()
+
+    function refreshImages() {
+
+        Array.from($photos).map((photo, index, collection) => {
+            const src = photo.src.split('?');
+            collection[index].src = src[0] + '?t=' + Math.floor((Math.random() * 1000) + 1);
+        })
+
+    }
+
+    window.addEventListener('load', function () {
+        $audio = document.getElementById('liveATCAudio');
+        $photos = document.querySelectorAll('#cameras img');
+
+        Array.from($photos).map((photo) => {
+            photo.addEventListener('click', () => {
+                if (photo.classList) {
+                    photo.classList.toggle('big');
+                } else {
+                    const classes = photo.className.split(' ');
+                    const existingIndex = classes.indexOf('big');
+                    if (existingIndex >= 0)
+                        classes.splice(existingIndex, 1);
+                    else
+                        classes.push('big');
+
+                    photo.className = classes.join(' ');
+                }
+
+            })
+        })
+
+        refreshImages();
+        setInterval(() => audioPlay(), 1000);
+
+        setInterval(() => {
+            refreshImages();
+        }, 1000 * 30);
+    })
+
+
+</script>
 </body>
 </html>
