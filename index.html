@@ -4,12 +4,14 @@
     <title>EPGD Flight Info - only for personal purpose</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width"/>
+    <link rel="icon"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛫</text></svg>">
     <link href="css/flight.css" rel="stylesheet" media="screen"/>
 </head>
 <body>
-<!-- <iframe src="http://www.flightradar24.com/simple_index.php?lat=54.377458&lon=18.467760&z=8" id ="flight-radar"></iframe> -->
-<iframe src="https://globe.adsbexchange.com/" id="flight-radar" loading="lazy"></iframe>
-<audio src="https://d.liveatc.net/epgd" controls autoplay id="liveATCAudio"></audio>
+<!-- <iframe src="http://www.flightradar24.com/simple_index.php?lat=54.377458&lon=18.467760&z=8" id ="flight-map"></iframe> -->
+<iframe src="https://globe.adsbexchange.com/?airport=GDN&sidebarWidth=400" id="flight-map" loading="lazy"></iframe>
+
 <ul id="cameras">
     <li><img src="https://kamery.airport.gdansk.pl/kamery/pps3.jpg?t=0" alt="" loading="lazy"/></li>
     <li><img src="https://kamery.airport.gdansk.pl/kamery/pps1.jpg?t=0" alt="" loading="lazy"/></li>
@@ -17,54 +19,34 @@
     <li><img src="https://kamery.airport.gdansk.pl/kamery/przyloty_t2.jpg?t=0" alt="" loading="lazy"/></li>
     <li><img src="https://kamery.airport.gdansk.pl/kamery/pirs2.jpg?t=0" alt="" loading="lazy"/></li>
     <li><img src="https://kamery.airport.gdansk.pl/kamery/app29.jpg?t=0" alt="" loading="lazy"/></li>
+    <li>
+        <audio src="https://d.liveatc.net/epgd" controls autoplay id="liveATCAudio"></audio>
+    </li>
 </ul>
+
 <script type='text/javascript'>
 
     let $audio;
     let $photos;
 
     const audioPlay = () => $audio.play()
-
-    function refreshImages() {
-
+    const refreshImages = () =>
         Array.from($photos).map((photo, index, collection) => {
-            const src = photo.src.split('?');
-            collection[index].src = src[0] + '?t=' + Math.floor((Math.random() * 1000) + 1);
-        })
+            const src = photo.src.split('?')?.shift();
+            collection[index].src = `${src}?t=${Math.floor((Math.random() * 1000) + 1)}`;
+        });
 
-    }
-
-    window.addEventListener('load', function () {
+    window.addEventListener('DOMContentLoaded', function () {
         $audio = document.getElementById('liveATCAudio');
         $photos = document.querySelectorAll('#cameras img');
 
-        Array.from($photos).map((photo) => {
-            photo.addEventListener('click', () => {
-                if (photo.classList) {
-                    photo.classList.toggle('big');
-                } else {
-                    const classes = photo.className.split(' ');
-                    const existingIndex = classes.indexOf('big');
-                    if (existingIndex >= 0)
-                        classes.splice(existingIndex, 1);
-                    else
-                        classes.push('big');
+        Array.from($photos).map((photo) => photo.addEventListener('click', () => photo.classList.toggle('big')))
 
-                    photo.className = classes.join(' ');
-                }
-
-            })
-        })
-
+        audioPlay();
         refreshImages();
-        setInterval(() => audioPlay(), 1000);
-
-        setInterval(() => {
-            refreshImages();
-        }, 1000 * 30);
+        setInterval(() => audioPlay(), 1000 * 10);
+        setInterval(() => refreshImages(), 1000 * 30);
     })
-
-
 </script>
 </body>
 </html>
