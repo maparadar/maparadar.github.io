@@ -57,6 +57,7 @@ body {
 
     background-color: #313131;
     color: #c0c0c0;
+    overflow: hidden;
 }
 
 
@@ -88,7 +89,6 @@ strong {
 
 
 hr {
-    -moz-box-sizing: content-box;
     box-sizing: content-box;
     height: 0;
 }
@@ -147,17 +147,39 @@ figure {
     max-width: 100%;
     max-height: 100%;
     border-radius: 10px;
-    background-color: black;
+    aspect-ratio: initial;
+    /*transition: all 0.5s ease;*/
 }
 
 #cameras li img.big {
+    z-index: 20;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    max-width: 60vw;
-    max-height: 80vh;
+    width: 80vw;
+    aspect-ratio: 16 / 9;
+    height: auto;
+
 }
+
+#overlay {
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    height: 100dvh;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.8);
+
+}
+
+body:has(#cameras li img.big) > #overlay {
+    display: block;
+}
+
+
 
 #liveATCAudio {
     display: block;
