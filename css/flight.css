@@ -51,13 +51,19 @@ body {
 
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 150px;
+    grid-template-rows: 1fr 50px;
     grid-column-gap: 0;
     grid-row-gap: 0;
 
     background-color: #313131;
     color: #c0c0c0;
     overflow: hidden;
+}
+
+@media (min-device-width: 720px) {
+    body {
+        grid-template-rows: 1fr 150px;
+    }
 }
 
 
@@ -120,7 +126,7 @@ figure {
 
 #cameras {
     width: 100%; /*Sidebar*/
-    height: 150px;
+    height: 100%;
     list-style: none;
     margin: 0;
     padding: 5px 0;
