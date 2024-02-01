@@ -1,62 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>EPGD Flight Info - only for personal purpose</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
     <link rel="icon"
-          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛫</text></svg>">
-    <link href="css/flight.css" rel="stylesheet" media="screen"/>
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛫</text></svg>">
+    <link href="css/flight.css" rel="stylesheet" media="screen" />
 </head>
+
 <body>
-<iframe src="https://globe.adsbexchange.com/?airport=GDN&sidebarWidth=400" id="flight-map" loading="lazy"></iframe>
-<ul id="cameras">
-    <li><img src="https://kamery.airport.gdansk.pl/kamery/pps3.jpg?t=0" alt="" loading="lazy" data-ratio="16 / 9"/></li>
-    <li><img src="https://kamery.airport.gdansk.pl/kamery/pps1.jpg?t=0" alt="" loading="lazy" data-ratio="16 / 9"/></li>
-    <li><img src="https://kamery.airport.gdansk.pl/kamery/ppsy.jpg?t=0" alt="" loading="lazy" data-ratio="512 / 225"/>
-    </li>
-    <li><img src="https://kamery.airport.gdansk.pl/kamery/przyloty_t2.jpg?t=0" alt="" loading="lazy"
-             data-ratio="16 / 9"/></li>
-    <li><img src="https://kamery.airport.gdansk.pl/kamery/pirs2.jpg?t=0" alt="" loading="lazy" data-ratio="16 / 9"/>
-    </li>
-    <li><img src="https://kamery.airport.gdansk.pl/kamery/app29.jpg?t=0" alt="" loading="lazy" data-ratio="16 / 9"/>
-    </li>
-    <li>
-        <audio src="https://d.liveatc.net/epgd" controls autoplay id="liveATCAudio"></audio>
-    </li>
-</ul>
-<div id="overlay"></div>
+    <iframe src="https://globe.adsbexchange.com/?airport=GDN&sidebarWidth=400" id="flight-map" loading="lazy"></iframe>
+    <ul id="cameras">
+        <li><img src="https://kamery.airport.gdansk.pl/kamery/pps3.jpg?t=0" alt="" loading="lazy" data-ratio="16 / 9" />
+        </li>
+        <li><img src="https://kamery.airport.gdansk.pl/kamery/pps1.jpg?t=0" alt="" loading="lazy" data-ratio="16 / 9" />
+        </li>
+        <li><img src="https://kamery.airport.gdansk.pl/kamery/ppsy.jpg?t=0" alt="" loading="lazy"
+                data-ratio="512 / 225" />
+        </li>
+        <li><img src="https://kamery.airport.gdansk.pl/kamery/przyloty_t2.jpg?t=0" alt="" loading="lazy"
+                data-ratio="16 / 9" /></li>
+        <li><img src="https://kamery.airport.gdansk.pl/kamery/pirs2.jpg?t=0" alt="" loading="lazy"
+                data-ratio="16 / 9" />
+        </li>
+        <li><img src="https://kamery.airport.gdansk.pl/kamery/app29.jpg?t=0" alt="" loading="lazy"
+                data-ratio="16 / 9" />
+        </li>
+        <!-- <li>
+            <audio src="https://d.liveatc.net/epgd" controls autoplay id="liveATCAudio"></audio>
+        </li> -->
+    </ul>
+    <div id="overlay"></div>
 
-<script type='text/javascript'>
+    <script type='text/javascript'>
 
-    let $audio;
-    let $photos;
+        // let $audio;
+        let $photos;
 
-    const audioPlay = () => $audio.play()
-    const refreshImages = () =>
-        Array.from($photos).map((photo, index, collection) => {
-            const src = photo.src.split('?')?.shift();
-            collection[index].src = `${src}?t=${Math.floor((Math.random() * 1000) + 1)}`;
-        });
-
-    window.addEventListener('DOMContentLoaded', function () {
-        $audio = document.getElementById('liveATCAudio');
-        $photos = document.querySelectorAll('#cameras img');
-
-        Array.from($photos).map((photo, index, collection) => {
-            photo.style.aspectRatio = photo.dataset.ratio;
-            photo.addEventListener('click', () => {
-                collection.filter(p => p !== photo).map((p) => p.classList.remove('big'))
-                photo.classList.toggle('big');
-
+        // const audioPlay = () => $audio.play()
+        const refreshImages = () =>
+            Array.from($photos).map((photo, index, collection) => {
+                const src = photo.src.split('?')?.shift();
+                collection[index].src = `${src}?t=${Math.floor((Math.random() * 1000) + 1)}`;
             });
-        })
 
-        audioPlay();
-        refreshImages();
-        setInterval(() => audioPlay(), 1000 * 10);
-        setInterval(() => refreshImages(), 1000 * 30);
-    })
-</script>
+        window.addEventListener('DOMContentLoaded', function () {
+            // $audio = document.getElementById('liveATCAudio');
+            $photos = document.querySelectorAll('#cameras img');
+
+            Array.from($photos).map((photo, index, collection) => {
+                photo.style.aspectRatio = photo.dataset.ratio;
+                photo.addEventListener('click', () => {
+                    collection.filter(p => p !== photo).map((p) => p.classList.remove('big'))
+                    photo.classList.toggle('big');
+                });
+            })
+
+            // audioPlay();
+            refreshImages();
+            // setInterval(() => audioPlay(), 1000 * 10);
+            setInterval(() => refreshImages(), 1000 * 30);
+        })
+    </script>
 </body>
+
 </html>
