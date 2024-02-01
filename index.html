@@ -32,12 +32,17 @@
             <audio src="https://d.liveatc.net/epgd" controls autoplay id="liveATCAudio"></audio>
         </li> -->
     </ul>
-    <div id="overlay"></div>
 
+    <div id="overlay">
+        <img id="big-image" src="">
+    </div>
+    </div>
     <script type='text/javascript'>
 
         // let $audio;
         let $photos;
+        const $overlay = document.getElementById('overlay');
+        const $bigImage = document.getElementById('big-image');
 
         // const audioPlay = () => $audio.play()
         const refreshImages = () =>
@@ -50,11 +55,17 @@
             // $audio = document.getElementById('liveATCAudio');
             $photos = document.querySelectorAll('#cameras img');
 
+            $overlay.addEventListener('click', () => {
+                $overlay.classList.remove('show');
+            });
+            $bigImage.addEventListener('click', () => {
+                $overlay.classList.remove('show');
+            });
             Array.from($photos).map((photo, index, collection) => {
-                photo.style.aspectRatio = photo.dataset.ratio;
                 photo.addEventListener('click', () => {
-                    collection.filter(p => p !== photo).map((p) => p.classList.remove('big'))
-                    photo.classList.toggle('big');
+                    $overlay.classList.add('show');
+                    $bigImage.src = photo.src;
+                    $bigImage.style.aspectRatio = photo.dataset.ratio;
                 });
             })
 
