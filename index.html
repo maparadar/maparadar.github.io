@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>EPGD Flight Info - only for personal purpose</title>
+    <title>EPGD Flight Info - wojskowy radar ruchu lotniczego</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
     <link rel="icon"
@@ -13,20 +13,22 @@
 <body>
     <iframe src="https://globe.adsbexchange.com/?airport=GDN&sidebarWidth=400" id="flight-map" loading="lazy"></iframe>
     <ul id="cameras">
-        <li><img src="https://kamery.airport.gdansk.pl/kamery/pps3.jpg?t=0" alt="" loading="lazy" data-ratio="16 / 9" />
+        <li><img src="https://kamery.airport.gdansk.pl/kamery/pps3.jpg?t=0" alt="" loading="lazy" data-ratio="16 / 9"
+                data-index="0" />
         </li>
-        <li><img src="https://kamery.airport.gdansk.pl/kamery/pps1.jpg?t=0" alt="" loading="lazy" data-ratio="16 / 9" />
+        <li><img src="https://kamery.airport.gdansk.pl/kamery/pps1.jpg?t=0" alt="" loading="lazy" data-ratio="16 / 9"
+                data-index="1" />
         </li>
-        <li><img src="https://kamery.airport.gdansk.pl/kamery/ppsy.jpg?t=0" alt="" loading="lazy"
-                data-ratio="512 / 225" />
+        <li><img src="https://kamery.airport.gdansk.pl/kamery/ppsy.jpg?t=0" alt="" loading="lazy" data-ratio="512 / 225"
+                data-index="2" />
         </li>
         <li><img src="https://kamery.airport.gdansk.pl/kamery/przyloty_t2.jpg?t=0" alt="" loading="lazy"
-                data-ratio="16 / 9" /></li>
-        <li><img src="https://kamery.airport.gdansk.pl/kamery/pirs2.jpg?t=0" alt="" loading="lazy"
-                data-ratio="16 / 9" />
+                data-ratio="16 / 9" data-index="3" /></li>
+        <li><img src="https://kamery.airport.gdansk.pl/kamery/pirs2.jpg?t=0" alt="" loading="lazy" data-ratio="16 / 9"
+                data-index="4" />
         </li>
-        <li><img src="https://kamery.airport.gdansk.pl/kamery/app29.jpg?t=0" alt="" loading="lazy"
-                data-ratio="16 / 9" />
+        <li><img src="https://kamery.airport.gdansk.pl/kamery/app29.jpg?t=0" alt="" loading="lazy" data-ratio="16 / 9"
+                data-index="5" />
         </li>
         <!-- <li>
             <audio src="https://d.liveatc.net/epgd" controls autoplay id="liveATCAudio"></audio>
@@ -40,20 +42,41 @@
     <script type='text/javascript'>
 
         // let $audio;
-        let $photos;
-        const $overlay = document.getElementById('overlay');
-        const $bigImage = document.getElementById('big-image');
+        let $photos = [];
+        const $overlay = document.getElementById('overlay') ?? null;
+        const $bigImage = document.getElementById('big-image') ?? null;
 
         // const audioPlay = () => $audio.play()
         const refreshImages = () =>
-            Array.from($photos).map((photo, index, collection) => {
+            $photos.map((photo, index, collection) => {
                 const src = photo.src.split('?')?.shift();
                 collection[index].src = `${src}?t=${Math.floor((Math.random() * 1000) + 1)}`;
             });
 
         window.addEventListener('DOMContentLoaded', function () {
             // $audio = document.getElementById('liveATCAudio');
-            $photos = document.querySelectorAll('#cameras img');
+            $photos = [...document.querySelectorAll('#cameras img')];
+
+            // When user click the arrow right button
+            document.addEventListener('keydown', (event) => {
+                if (!(event.key === 'ArrowRight' || event.key === 'ArrowLeft')) {
+                    return;
+                }
+                const index = parseInt($bigImage.dataset.index);
+                let nextIndex = index;
+
+                if (event.key === 'ArrowRight') {
+                    nextIndex = (index + 1) % $photos.length;
+                }
+                //arrow left
+                if (event.key === 'ArrowLeft') {
+                    nextIndex = (index - 1 + $photos.length) % $photos.length;
+                }
+
+                $bigImage.dataset.index = nextIndex;
+                $bigImage.style.aspectRatio = $photos[nextIndex].dataset.ratio;
+                $bigImage.src = $photos[nextIndex].src;
+            });
 
             $overlay.addEventListener('click', () => {
                 $overlay.classList.remove('show');
@@ -61,11 +84,12 @@
             $bigImage.addEventListener('click', () => {
                 $overlay.classList.remove('show');
             });
-            Array.from($photos).map((photo, index, collection) => {
+            $photos.map((photo, index, collection) => {
                 photo.addEventListener('click', () => {
                     $overlay.classList.add('show');
                     $bigImage.src = photo.src;
                     $bigImage.style.aspectRatio = photo.dataset.ratio;
+                    $bigImage.dataset.index = photo.dataset.index;
                 });
             })
 
