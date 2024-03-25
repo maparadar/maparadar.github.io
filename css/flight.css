@@ -170,11 +170,15 @@ figure {
 }
 #overlay.show {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    align-content: center;
+
 }
 
 #big-image {
+    z-index: 20;
     display: block;
     margin: auto auto;
     width: 80vw;
@@ -188,4 +192,17 @@ figure {
     width: 100%;
     height: auto;
     min-height: 50px;
+}
+
+#camera-link {
+    z-index: 30;
+    display: block;
+    margin: 0 auto;
+    width: 4rem;
+    height: 4rem;
+    font-size: 3rem;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 0.25rem;
+    background-color: #ffffff90;
 }
