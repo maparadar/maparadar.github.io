@@ -7,7 +7,147 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛫</text></svg>">
-    <link href="css/flight.css" rel="stylesheet" media="screen" />
+    <style type="text/css">
+        html {
+            font-family: sans-serif;
+            -ms-text-size-adjust: 100%;
+            -webkit-text-size-adjust: 100%;
+            height: 100%;
+        }
+
+        html * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr 50px;
+            grid-column-gap: 0;
+            grid-row-gap: 0;
+
+            background-color: #313131;
+            color: #c0c0c0;
+            overflow: hidden;
+        }
+
+        @media (min-device-width: 720px) {
+            body {
+                grid-template-rows: 1fr 150px;
+            }
+        }
+
+        a {
+            background: transparent;
+        }
+
+        a:focus {
+            outline: thin dotted;
+        }
+
+        a:active,
+        a:hover {
+            outline: 0;
+        }
+
+        img {
+            border: 0;
+        }
+
+
+
+        #flight-map {
+            margin: 0;
+            padding: 0;
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+
+
+        #cameras {
+            width: 100%;
+            /*Sidebar*/
+            height: 100%;
+            list-style: none;
+            margin: 0;
+            padding: 5px 0;
+            display: flex;
+            flex-wrap: nowrap;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        #cameras li {
+            display: block;
+            margin: 0;
+            padding: 0 5px;
+            width: 100%;
+            height: 100%;
+        }
+
+        #cameras li img {
+            display: block;
+            margin: 0 auto;
+            width: auto;
+            height: 100%;
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 10px;
+            transform: none;
+        }
+
+        #overlay {
+            z-index: 10;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100dvw;
+            height: 100dvh;
+            display: none;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        #overlay.show {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+
+        }
+
+        #big-image {
+            z-index: 20;
+            display: block;
+            margin: auto auto;
+            width: 80vw;
+            height: auto;
+            border-radius: 10px;
+            aspect-ratio: 16 / 9;
+        }
+
+
+        #camera-link {
+            z-index: 30;
+            display: block;
+            margin: 0 auto;
+            width: 4rem;
+            height: 4rem;
+            font-size: 3rem;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 0.25rem;
+            background-color: #ffffff90;
+        }
+    </style>
 </head>
 
 <body>
@@ -30,9 +170,6 @@
         <li><img src="https://kamery.airport.gdansk.pl/kamery/app29.jpg?t=0" alt="" loading="lazy" data-ratio="16 / 9"
                 data-index="5" />
         </li>
-        <!-- <li>
-            <audio src="https://d.liveatc.net/epgd" controls autoplay id="liveATCAudio"></audio>
-        </li> -->
     </ul>
 
     <div id="overlay">
@@ -42,10 +179,10 @@
     </div>
     <script type='text/javascript'>
 
-        // let $audio;
         let $photos = [];
         const $overlay = document.getElementById('overlay') ?? null;
         const $bigImage = document.getElementById('big-image') ?? null;
+        const PHOTO_REFRESH_INTERVAL = 1000 * 30;
 
         // const audioPlay = () => $audio.play()
         const refreshImages = () =>
@@ -55,28 +192,35 @@
             });
 
         window.addEventListener('DOMContentLoaded', function () {
-            // $audio = document.getElementById('liveATCAudio');
             $photos = [...document.querySelectorAll('#cameras img')];
 
-            // When user click the arrow right button
             document.addEventListener('keydown', (event) => {
-                if (!(event.key === 'ArrowRight' || event.key === 'ArrowLeft')) {
+
+                const index = parseInt($bigImage?.dataset?.index ?? 0);
+                let nextIndex = index;
+
+                if (event.key === 'Escape') {
+                    $overlay.classList.remove('show');
                     return;
                 }
-                const index = parseInt($bigImage.dataset.index);
-                let nextIndex = index;
 
                 if (event.key === 'ArrowRight') {
                     nextIndex = (index + 1) % $photos.length;
                 }
-                //arrow left
+
                 if (event.key === 'ArrowLeft') {
                     nextIndex = (index - 1 + $photos.length) % $photos.length;
                 }
 
+
                 $bigImage.dataset.index = nextIndex;
                 $bigImage.style.aspectRatio = $photos[nextIndex].dataset.ratio;
                 $bigImage.src = $photos[nextIndex].src;
+
+                //When hit space, open the overlay
+                if (event.key === ' ') {
+                    $overlay.classList.add('show');
+                }
             });
 
             $overlay.addEventListener('click', () => {
@@ -94,10 +238,8 @@
                 });
             })
 
-            // audioPlay();
             refreshImages();
-            // setInterval(() => audioPlay(), 1000 * 10);
-            setInterval(() => refreshImages(), 1000 * 30);
+            setInterval(() => refreshImages(), PHOTO_REFRESH_INTERVAL);
         })
     </script>
 </body>
