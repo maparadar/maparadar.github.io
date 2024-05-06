@@ -60,8 +60,6 @@
             border: 0;
         }
 
-
-
         #flight-map {
             margin: 0;
             padding: 0;
@@ -69,7 +67,6 @@
             width: 100%;
             height: 100%;
         }
-
 
         #cameras {
             width: 100%;
@@ -116,6 +113,7 @@
         }
 
         #overlay.show {
+            display: block;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -125,20 +123,26 @@
         }
 
         #big-image {
+            position: static;
             z-index: 20;
             display: block;
             margin: auto auto;
-            width: 80vw;
-            height: auto;
             border-radius: 10px;
             aspect-ratio: 16 / 9;
+            width: 90dvw;
+            height: auto;
         }
 
 
         #camera-link {
+            position: absolute;
             z-index: 30;
             display: block;
-            margin: 0 auto;
+            top: 0;
+            bottom: auto;
+            left: calc(50% - 2rem);
+            right: auto;
+            margin: 0;
             width: 4rem;
             height: 4rem;
             font-size: 3rem;
@@ -151,7 +155,8 @@
 </head>
 
 <body>
-    <iframe src="https://globe.adsbexchange.com/?airport=GDN&sidebarWidth=400" id="flight-map" loading="lazy"></iframe>
+    <iframe src="https://globe.adsbexchange.com/?airport=GDN&sidebarWidth=400" id="flight-map" loading="lazy"
+        title="ADSB Exchange map"></iframe>
     <ul id="cameras">
         <li><img src="https://kamery.airport.gdansk.pl/kamery/pps3.jpg?t=0" alt="" loading="lazy" data-ratio="16 / 9"
                 data-index="0" />
@@ -183,8 +188,8 @@
         const $overlay = document.getElementById('overlay') ?? null;
         const $bigImage = document.getElementById('big-image') ?? null;
         const PHOTO_REFRESH_INTERVAL = 1000 * 30;
+        const SPACE_KEY = 32;
 
-        // const audioPlay = () => $audio.play()
         const refreshImages = () =>
             $photos.map((photo, index, collection) => {
                 const src = photo.src.split('?')?.shift();
@@ -217,9 +222,9 @@
                 $bigImage.style.aspectRatio = $photos[nextIndex].dataset.ratio;
                 $bigImage.src = $photos[nextIndex].src;
 
-                //When hit space, open the overlay
-                if (event.key === ' ') {
-                    $overlay.classList.add('show');
+                //When hit space, toggle the overlay 
+                if (event.keyCode === SPACE_KEY) {
+                    $overlay.classList.toggle('show');
                 }
             });
 
