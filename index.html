@@ -3,11 +3,11 @@
 
 <head>
     <title>EPGD Flight Info - radar ruchu lotniczego</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width"/>
     <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛫</text></svg>">
-    <style type="text/css">
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛫</text></svg>">
+    <style>
         html {
             font-family: sans-serif;
             -ms-text-size-adjust: 100%;
@@ -59,7 +59,6 @@
         img {
             border: 0;
         }
-
 
 
         #flight-map {
@@ -128,8 +127,8 @@
             z-index: 20;
             display: block;
             margin: auto auto;
-            width: 80vw;
-            height: auto;
+            width: 90dvw;
+
             border-radius: 10px;
             aspect-ratio: 16 / 9;
         }
@@ -151,97 +150,99 @@
 </head>
 
 <body>
-    <iframe src="https://globe.adsbexchange.com/?airport=GDN&sidebarWidth=400" id="flight-map" loading="lazy"></iframe>
-    <ul id="cameras">
-        <li><img src="https://kamery.airport.gdansk.pl/kamery/pps3.jpg?t=0" alt="" loading="lazy" data-ratio="16 / 9"
-                data-index="0" />
-        </li>
-        <li><img src="https://kamery.airport.gdansk.pl/kamery/pps1.jpg?t=0" alt="" loading="lazy" data-ratio="16 / 9"
-                data-index="1" />
-        </li>
-        <li><img src="https://kamery.airport.gdansk.pl/kamery/ppsy.jpg?t=0" alt="" loading="lazy" data-ratio="512 / 225"
-                data-index="2" />
-        </li>
-        <li><img src="https://kamery.airport.gdansk.pl/kamery/przyloty_t2.jpg?t=0" alt="" loading="lazy"
-                data-ratio="16 / 9" data-index="3" /></li>
-        <li><img src="https://kamery.airport.gdansk.pl/kamery/pirs2.jpg?t=0" alt="" loading="lazy" data-ratio="16 / 9"
-                data-index="4" />
-        </li>
-        <li><img src="https://kamery.airport.gdansk.pl/kamery/app29.jpg?t=0" alt="" loading="lazy" data-ratio="16 / 9"
-                data-index="5" />
-        </li>
-    </ul>
+<iframe src="https://globe.adsbexchange.com/?airport=GDN&sidebarWidth=400" id="flight-map" loading="lazy"></iframe>
+<ul id="cameras">
+    <li><img src="https://kamery.airport.gdansk.pl/kamery/pps3.jpg?t=0" alt="" loading="lazy" data-ratio="16 / 9"
+             data-index="0"/>
+    </li>
+    <li><img src="https://kamery.airport.gdansk.pl/kamery/pps1.jpg?t=0" alt="" loading="lazy" data-ratio="16 / 9"
+             data-index="1"/>
+    </li>
+    <li><img src="https://kamery.airport.gdansk.pl/kamery/ppsy.jpg?t=0" alt="" loading="lazy" data-ratio="512 / 225"
+             data-index="2"/>
+    </li>
+    <li><img src="https://kamery.airport.gdansk.pl/kamery/przyloty_t2.jpg?t=0" alt="" loading="lazy"
+             data-ratio="16 / 9" data-index="3"/></li>
+    <li><img src="https://kamery.airport.gdansk.pl/kamery/pirs2.jpg?t=0" alt="" loading="lazy" data-ratio="16 / 9"
+             data-index="4"/>
+    </li>
+    <li><img src="https://kamery.airport.gdansk.pl/kamery/app29.jpg?t=0" alt="" loading="lazy" data-ratio="16 / 9"
+             data-index="5"/>
+    </li>
+</ul>
 
-    <div id="overlay">
-        <img id="big-image" src="" alt="Big version - from the EPGD camera" />
-        <a href="https://www.airport.gdansk.pl/lotnisko/kamery-internetowe-p30.html" id="camera-link"
-            title="Camera link" target="_blank" rel="nofollow noopener noreferrer">📹</a>
-    </div>
-    <script type='text/javascript'>
+<div id="overlay">
+    <img id="big-image" src="" alt="Big version - from the EPGD camera"/>
+    <a href="https://www.airport.gdansk.pl/lotnisko/kamery-internetowe-p30.html" id="camera-link"
+       title="Camera link" target="_blank" rel="nofollow noopener noreferrer">📹</a>
+</div>
+<script type='text/javascript'>
 
-        let $photos = [];
-        const $overlay = document.getElementById('overlay') ?? null;
-        const $bigImage = document.getElementById('big-image') ?? null;
-        const PHOTO_REFRESH_INTERVAL = 1000 * 30;
+    let $photos = [];
+    const $overlay = document.getElementById('overlay') ?? null;
+    const $bigImage = document.getElementById('big-image') ?? null;
+    const PHOTO_REFRESH_INTERVAL = 1000 * 30;
 
-        // const audioPlay = () => $audio.play()
-        const refreshImages = () =>
-            $photos.map((photo, index, collection) => {
-                const src = photo.src.split('?')?.shift();
-                collection[index].src = `${src}?t=${Math.floor((Math.random() * 1000) + 1)}`;
-            });
+    // const audioPlay = () => $audio.play()
+    const refreshImages = () =>
+        $photos.map((photo, index, collection) => {
+            const src = photo.src.split('?')?.shift();
+            collection[index].src = `${src}?t=${Math.floor((Math.random() * 1000) + 1)}`;
+        });
 
-        window.addEventListener('DOMContentLoaded', function () {
-            $photos = [...document.querySelectorAll('#cameras img')];
+    window.addEventListener('DOMContentLoaded', function () {
+        $photos = [...document.querySelectorAll('#cameras img')];
 
-            document.addEventListener('keydown', (event) => {
+        document.addEventListener('keydown', (event) => {
 
-                const index = parseInt($bigImage?.dataset?.index ?? 0);
-                let nextIndex = index;
+            const index = parseInt($bigImage?.dataset?.index ?? 0);
+            let nextIndex = index;
 
-                if (event.key === 'Escape') {
-                    $overlay.classList.remove('show');
-                    return;
-                }
-
-                if (event.key === 'ArrowRight') {
-                    nextIndex = (index + 1) % $photos.length;
-                }
-
-                if (event.key === 'ArrowLeft') {
-                    nextIndex = (index - 1 + $photos.length) % $photos.length;
-                }
-
-
-                $bigImage.dataset.index = nextIndex;
-                $bigImage.style.aspectRatio = $photos[nextIndex].dataset.ratio;
-                $bigImage.src = $photos[nextIndex].src;
-
-                //When hit space, open the overlay
-                if (event.key === ' ') {
-                    $overlay.classList.add('show');
-                }
-            });
-
-            $overlay.addEventListener('click', () => {
+            if (event.key === 'Escape') {
                 $overlay.classList.remove('show');
-            });
-            $bigImage.addEventListener('click', () => {
-                $overlay.classList.remove('show');
-            });
-            $photos.map((photo, index, collection) => {
-                photo.addEventListener('click', () => {
-                    $overlay.classList.add('show');
-                    $bigImage.src = photo.src;
-                    $bigImage.style.aspectRatio = photo.dataset.ratio;
-                    $bigImage.dataset.index = photo.dataset.index;
-                });
-            })
+                return;
+            }
 
-            refreshImages();
-            setInterval(() => refreshImages(), PHOTO_REFRESH_INTERVAL);
+            if (event.key === 'ArrowRight') {
+                nextIndex = (index + 1) % $photos.length;
+            }
+
+            if (event.key === 'ArrowLeft') {
+                nextIndex = (index - 1 + $photos.length) % $photos.length;
+            }
+
+
+            $bigImage.dataset.index = nextIndex;
+            $bigImage.style.aspectRatio = $photos[nextIndex].dataset.ratio;
+            $bigImage.src = $photos[nextIndex].src;
+            console.log($photos[nextIndex].dataset.ratio);
+
+            //When hit space, open the overlay
+            if (event.key === ' ') {
+                $overlay.classList.add('show');
+            }
+        });
+
+        $overlay.addEventListener('click', () => {
+            $overlay.classList.remove('show');
+        });
+        $bigImage.addEventListener('click', () => {
+            $overlay.classList.remove('show');
+        });
+        $photos.map((photo) => {
+            photo.addEventListener('click', () => {
+                $overlay.classList.add('show');
+                $bigImage.src = photo.src;
+                $bigImage.style.aspectRatio = photo.dataset.ratio;
+                $bigImage.dataset.index = photo.dataset.index;
+                console.log(photo.dataset.ratio);
+            });
         })
-    </script>
+
+        refreshImages();
+        setInterval(() => refreshImages(), PHOTO_REFRESH_INTERVAL);
+    })
+</script>
 </body>
 
 </html>
