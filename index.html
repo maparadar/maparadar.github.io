@@ -110,7 +110,8 @@
             width: 100dvw;
             height: 100dvh;
             display: none;
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(3px);
         }
 
         #overlay.show {
@@ -127,8 +128,11 @@
             z-index: 20;
             display: block;
             margin: auto auto;
-            width: 90dvw;
+            width: auto;
             height: auto;
+            min-width: 50dvw;
+            max-width: 90dvw;
+            max-height: 90dvh;
             border-radius: 10px;
             aspect-ratio: 16 / 9;
         }
@@ -188,7 +192,7 @@
     const $overlay = document.getElementById('overlay') ?? null;
     const $bigImage = document.getElementById('big-image') ?? null;
     const PHOTO_REFRESH_INTERVAL = 1000 * 30;
-        const SPACE_KEY = 32;
+    const SPACE_KEY = 'Space';
 
 
     const refreshImages = () =>
@@ -219,13 +223,12 @@
             }
 
 
-            $bigImage.dataset.index = nextIndex;
+            $bigImage.dataset.index = nextIndex.toString();
             $bigImage.style.aspectRatio = $photos[nextIndex].dataset.ratio;
             $bigImage.src = $photos[nextIndex].src;
             console.log($photos[nextIndex].dataset.ratio);
 
-            //When hit space, toggle the overlay
-            if (event.keyCode === SPACE_KEY) {
+            if (event.code === SPACE_KEY) {
                 $overlay.classList.toggle('show');
             }
         });
@@ -242,7 +245,6 @@
                 $bigImage.src = photo.src;
                 $bigImage.style.aspectRatio = photo.dataset.ratio;
                 $bigImage.dataset.index = photo.dataset.index;
-                console.log(photo.dataset.ratio);
             });
         })
 
