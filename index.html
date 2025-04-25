@@ -163,7 +163,7 @@
 </head>
 
 <body>
-    <iframe src="https://globe.airplanes.live/?airport=GDN&sidebarWidth=400&hideSidebar&mil" id="flight-map"
+    <iframe src="https://globe.airplanes.live/?sidebarWidth=400&hideSidebar&mil&airport=epgd" id="flight-map"
         loading="lazy" title="airplanes.live"></iframe>
     <ul id="cameras">
         <li><img src="https://kamery.airport.gdansk.pl/kamery/pps3.jpg?t=0" alt="" loading="lazy"
@@ -231,7 +231,6 @@
                 $bigImage.dataset.index = nextIndex.toString();
                 $bigImage.style.aspectRatio = $photos[nextIndex].dataset.ratio;
                 $bigImage.src = $photos[nextIndex].src;
-                console.log($photos[nextIndex].dataset.ratio);
 
                 if (event.code === SPACE_KEY) {
                     $overlay.classList.toggle('show');
