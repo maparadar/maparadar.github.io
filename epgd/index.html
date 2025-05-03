@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPGD</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #313131;
+        }
+
+        #cameras {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        #cameras li {
+            margin: 0;
+            padding: 0;
+        }
+
+        #cameras img {
+            display: block;
+            width: 100vw;
+            height: auto;
+            margin: 0;
+            padding: 0;
+        }
+
+        #cameras img.half {
+            display: inline-block;
+            width: 50vw;
+        }
+    </style>
+</head>
+
+<body>
+    <ul id="cameras">
+        <li><img src="https://kamery.airport.gdansk.pl/kamery/pps3.jpg?t=0" alt="" loading="lazy" /></li>
+        <li><img src="https://kamery.airport.gdansk.pl/kamery/pirs2.jpg?t=0" alt="" loading="lazy" /></li>
+        <li><img src="https://kamery.airport.gdansk.pl/kamery/ppsy.jpg?t=0" alt="" loading="lazy" /></li>
+        <li><img src="https://kamery.airport.gdansk.pl/kamery/pps1.jpg?t=0" alt="" loading="lazy" class="half" />
+        </li>
+        <li><img src="https://kamery.airport.gdansk.pl/kamery/przyloty_t2.jpg?t=0" alt="" loading="lazy" class="half" />
+        </li>
+        <li><img src="https://kamery.airport.gdansk.pl/kamery/app29.jpg?t=0" alt="" loading="lazy" /></li>
+
+    </ul>
+    <script type='text/javascript'>let $photos = [];
+        const PHOTO_REFRESH_INTERVAL = 1000 * 30;
+        const SPACE_KEY = 'Space';
+        const refreshImages = () =>
+            $photos.map((photo, index, collection) => {
+                const src = photo.src.split('?')?.shift();
+                collection[index].src = `${src}?t=${Math.floor((Math.random() * 1000) + 1)}`;
+            });
+
+        window.addEventListener('DOMContentLoaded', function () {
+            $photos = [...document.querySelectorAll('#cameras img')];
+            refreshImages();
+            setInterval(() => refreshImages(), PHOTO_REFRESH_INTERVAL);
+        }) </script>
+</body>
+
+</html>
