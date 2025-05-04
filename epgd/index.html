@@ -51,17 +51,27 @@
             display: block;
             margin: auto 0;
         }
+
+        #cameras img.error {
+            height: 1rem;
+            background-color: #FFCC00;
+        }
     </style>
 </head>
 
 <body>
     <ul id="cameras">
-        <li><img src="https://kamery.airport.gdansk.pl/kamery/pps3.jpg?t=0" alt="" loading="lazy" /></li>
-        <li><img src="https://kamery.airport.gdansk.pl/kamery/pirs2.jpg?t=0" alt="" loading="lazy" /></li>
-        <li><img src="https://kamery.airport.gdansk.pl/kamery/ppsy.jpg?t=0" alt="" loading="lazy" /></li>
-        <li class="half"><img src="https://kamery.airport.gdansk.pl/kamery/pps1.jpg?t=0" alt="" loading="lazy" />
+        <li><img src="https://kamery.airport.gdansk.pl/kamery/pps3.jpg?t=0" alt="" loading="lazy"
+                onerror="this.classList.add('error');" /></li>
+        <li><img src="https://kamery.airport.gdansk.pl/kamery/pirs2.jpg?t=0" alt="" loading="lazy"
+                onerror="this.classList.add('error');" /></li>
+        <li><img src="https://kamery.airport.gdansk.pl/kamery/ppsy.jpg?t=0" alt="" loading="lazy"
+                onerror="this.classList.add('error');" /></li>
+        <li class="half"><img src="https://kamery.airport.gdansk.pl/kamery/pps1.jpg?t=0" alt="" loading="lazy"
+                onerror="this.classList.add('error');" />
         </li>
-        <li class="half"><img src="https://kamery.airport.gdansk.pl/kamery/przyloty_t2.jpg?t=0" alt="" loading="lazy" />
+        <li class="half"><img src="https://kamery.airport.gdansk.pl/kamery/przyloty_t2.jpg?t=0" alt="" loading="lazy"
+                onerror="this.classList.add('error');" />
         </li>
         <!-- <li><img src="https://kamery.airport.gdansk.pl/kamery/app29.jpg?t=0" alt="" loading="lazy" /></li> -->
     </ul>
