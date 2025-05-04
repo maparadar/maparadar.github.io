@@ -78,7 +78,7 @@
     <script type='text/javascript'>
         let $photos = [];
         const PHOTO_REFRESH_INTERVAL = 1000 * 30;
-        const SPACE_KEY = 'Space';
+
         const refreshImages = () =>
             $photos.map((photo, index, collection) => {
                 const src = photo.src.split('?')?.shift();
