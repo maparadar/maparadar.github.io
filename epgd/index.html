@@ -6,42 +6,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EPGD</title>
     <style>
-        body {
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        html,
+        body,
+        ul,
+        li,
+        img {
+            display: block;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #313131;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #212A37;
         }
 
         #cameras {
             list-style-type: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            text-align: center;
         }
 
         #cameras li {
-            margin: 0;
-            padding: 0;
-        }
-
-        #cameras img {
             display: block;
             width: 100vw;
             height: auto;
-            margin: 0;
-            padding: 0;
         }
 
-        #cameras img.half {
+        #cameras li.half {
             display: inline-block;
-            width: 50vw;
+            width: 49vw;
+        }
+
+        #cameras img {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: auto 0;
         }
     </style>
 </head>
@@ -51,14 +59,14 @@
         <li><img src="https://kamery.airport.gdansk.pl/kamery/pps3.jpg?t=0" alt="" loading="lazy" /></li>
         <li><img src="https://kamery.airport.gdansk.pl/kamery/pirs2.jpg?t=0" alt="" loading="lazy" /></li>
         <li><img src="https://kamery.airport.gdansk.pl/kamery/ppsy.jpg?t=0" alt="" loading="lazy" /></li>
-        <li><img src="https://kamery.airport.gdansk.pl/kamery/pps1.jpg?t=0" alt="" loading="lazy" class="half" />
+        <li class="half"><img src="https://kamery.airport.gdansk.pl/kamery/pps1.jpg?t=0" alt="" loading="lazy" />
         </li>
-        <li><img src="https://kamery.airport.gdansk.pl/kamery/przyloty_t2.jpg?t=0" alt="" loading="lazy" class="half" />
+        <li class="half"><img src="https://kamery.airport.gdansk.pl/kamery/przyloty_t2.jpg?t=0" alt="" loading="lazy" />
         </li>
-        <li><img src="https://kamery.airport.gdansk.pl/kamery/app29.jpg?t=0" alt="" loading="lazy" /></li>
-
+        <!-- <li><img src="https://kamery.airport.gdansk.pl/kamery/app29.jpg?t=0" alt="" loading="lazy" /></li> -->
     </ul>
-    <script type='text/javascript'>let $photos = [];
+    <script type='text/javascript'>
+        let $photos = [];
         const PHOTO_REFRESH_INTERVAL = 1000 * 30;
         const SPACE_KEY = 'Space';
         const refreshImages = () =>
